@@ -5,7 +5,7 @@ const Config = require('./Config').default;
 const url = Config.urlMongoServer;
 const dbName = "lab_celebs";
 /* ************************************************ */
-mongoose.Promise = global.Promise;
+//mongoose.Promise = global.Promise;
 mongoose.set('useCreateIndex', true);
 const cx = mongoose.connect(url + "/" + dbName, { useNewUrlParser: true });
 const CelebridadModel = require("./CelebridadModel");

@@ -8,9 +8,7 @@ const url: string = Config.urlMongoServer;
 const dbName :string ="lab_celebs";
 
 /* ************************************************ */
-
-
-mongoose.Promise = global.Promise;
+//mongoose.Promise = global.Promise;
 
 mongoose.set('useCreateIndex', true);
 

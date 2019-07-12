@@ -20,6 +20,6 @@ export const CelebridadSchema: Schema = new Schema(
     })
 ;
 
-export const CelebridadModel = mongoose.model<ICelebridad>('receta', CelebridadSchema);
+export const CelebridadModel = mongoose.model<ICelebridad>('celebridad', CelebridadSchema);
 
 

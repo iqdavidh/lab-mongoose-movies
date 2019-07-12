@@ -1,1 +1,1 @@
-{"version":3,"file":"celebridadCrud.js","sourceRoot":"","sources":["../../../src/controller/celebridad/celebridadCrud.ts"],"names":[],"mappings":""}
+{"version":3,"file":"celebridadCrud.js","sourceRoot":"","sources":["../../../src/controller/celebridad/celebridadCrud.ts"],"names":[],"mappings":";;AAKA,MAAM,OAAO,GAAG,OAAO,CAAC,SAAS,CAAC,CAAC;AACnC,MAAM,MAAM,GAAG,OAAO,CAAC,MAAM,EAAE,CAAC;AAGhC,gBAAgB;AAChB,MAAM,CAAC,GAAG,CAAC,GAAG,EAAE,CAAC,GAAY,EAAE,GAAa,EAAE,EAAE;AAIhD,CAAC,CAAC,CAAC"}

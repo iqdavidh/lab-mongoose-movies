@@ -1,6 +1,9 @@
 'use strict';
 
 import {Application, Request, Response} from "express";
+import UrlApi from "./UrlApiConfig";
+import routerCelebridad from "./controller/celebridad/routerCelebridad";
+import BuilderJsonresponse from "./BuilderJsonResponse";
 
 
 const Config = require('./Config').default;
@@ -25,13 +28,21 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
 
+
+
 app.get("/", function (req, res) {
-   res.json({"ope": "i´m back :)"});
+   BuilderJsonresponse.Success(res,{});
 });
 
-const routerCeleb = require('./controller/celebridad/routerCelebridad');
-app.use('/celebridad', routerCeleb);
 
+/* celebridad ********************************************** */
+
+const urlRelCelebridad= UrlApi.Celebridad;
+
+app.use(`/api/${urlRelCelebridad}`, routerCelebridad);
+
+
+/* server ************************************************* */
 
 const port: number = Config.backPort;
 app.listen(port, () => {

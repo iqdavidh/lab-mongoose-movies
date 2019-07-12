@@ -15,5 +15,5 @@ exports.CelebridadSchema = new mongoose_1.Schema({
     creator: { type: String },
     created_at: { type: Date, default: Date.now }
 });
-exports.CelebridadModel = mongoose_1.default.model('receta', exports.CelebridadSchema);
+exports.CelebridadModel = mongoose_1.default.model('celebridad', exports.CelebridadSchema);
 //# sourceMappingURL=CelebridadModel.js.map
