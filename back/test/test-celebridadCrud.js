@@ -7,7 +7,7 @@ let url = "http://localhost:3002";
 const request = supertest(url);
 
 
-describe('get /api/celebridades/index', function () {
+describe('index get /api/celebridades/index', function () {
   it('ok request get index', function (done) {
     request
         .get('/api/celebridades/index/1')
@@ -41,10 +41,10 @@ describe('get /api/celebridades/index', function () {
 });
 
 
-describe('get /api/celebridades/item/', function () {
+describe('get /api/celebridades/', function () {
   it('ok request get item', function (done) {
     request
-        .get('/api/celebridades/item/5d2925c9f82a26aff127b1f4')
+        .get('/api/celebridades/5d2925c9f82a26aff127b1f4')
         .expect(200)
         .end(function (err, res) {
 
@@ -76,7 +76,7 @@ describe('get /api/celebridades/item/', function () {
 });
 
 
-describe('put /api/celebridades/item/', function () {
+describe('put /api/celebridades/', function () {
   it('ok request put item', function (done) {
 
     const valorRandom = lib.getRandom();
@@ -84,7 +84,7 @@ describe('put /api/celebridades/item/', function () {
 
 
     request
-        .put('/api/celebridades/item/5d2925c9f82a26aff127b1f4')
+        .put('/api/celebridades/5d2925c9f82a26aff127b1f4')
         .set('Accept', 'application/json')
         .send(dataUpdate)
         .expect(200)
@@ -110,4 +110,48 @@ describe('put /api/celebridades/item/', function () {
     ;
   });
 });
+
+
+
+
+describe('post /api/celebridades/', function () {
+  it('ok request post item', function (done) {
+
+    const valorRandom = lib.getRandom();
+    const dataInsert = {
+      occupation: 'ocupacion insert-test ' + valorRandom.toString(),
+      name:"nombre celeb",
+      catchPhrase:"catchPhrase celeb"
+    };
+
+
+    request
+        .post('/api/celebridades')
+        .set('Accept', 'application/json')
+        .send(dataInsert)
+        .expect(200)
+        .end(function (err, res) {
+
+          lib.saveResponse(JSON.stringify(res), 'celebridades-item-res-post.json');
+
+          const c = JSON.parse(res.text);
+
+          lib.saveResponse(res.text, 'celebridades-item-post.json');
+
+          assert(c.success, "Se esperada true como tipo de succes");
+          assert(c.msg === "", "No deberiamos tener un mensaje de en la respuesta");
+
+          assert(typeof c.data === "object", "El objeto data deberia deberia ser un objeto");
+
+          let dataRespuesta = c.data;
+
+          assert(dataRespuesta.item, 'no esta el item');
+
+          if (err) return done(err);
+          done();
+        })
+    ;
+  });
+});
+
 
