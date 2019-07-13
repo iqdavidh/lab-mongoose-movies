@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const UrlApiConfig = {
     Celebridades: 'celebridades',
-    Movie: 'movie',
+    Peliculas: 'peliculas',
     itemsXRequest: 10,
 };
 exports.default = UrlApiConfig;

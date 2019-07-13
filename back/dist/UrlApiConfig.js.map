@@ -1,1 +1,1 @@
-{"version":3,"file":"UrlApiConfig.js","sourceRoot":"","sources":["../src/UrlApiConfig.ts"],"names":[],"mappings":";;AAAA,MAAM,YAAY,GAAQ;IACvB,YAAY,EAAE,cAAc;IAC5B,KAAK,EAAE,OAAO;IACd,aAAa,EAAE,EAAE;CACnB,CAAC;AAEF,kBAAe,YAAY,CAAC"}
+{"version":3,"file":"UrlApiConfig.js","sourceRoot":"","sources":["../src/UrlApiConfig.ts"],"names":[],"mappings":";;AAAA,MAAM,YAAY,GAAQ;IACvB,YAAY,EAAE,cAAc;IAC5B,SAAS,EAAE,WAAW;IACtB,aAAa,EAAE,EAAE;CACnB,CAAC;AAEF,kBAAe,YAAY,CAAC"}

@@ -7,6 +7,7 @@ const UrlApiConfig_1 = __importDefault(require("./UrlApiConfig"));
 const routerCelebridad_1 = __importDefault(require("./controller/celebridad/routerCelebridad"));
 const BuilderJsonResponse_1 = __importDefault(require("./BuilderJsonResponse"));
 const DBLabCelebs_1 = __importDefault(require("./db/DBLabCelebs"));
+const routerPelicula_1 = __importDefault(require("./controller/pelicula/routerPelicula"));
 const Config = require('./Config').default;
 const express = require('express');
 const bodyParser = require("body-parser");
@@ -14,6 +15,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const app = express();
 app.use(cors());
+DBLabCelebs_1.default.cx;
 if (Config.isServerDev) {
     const logger = require('morgan');
     app.use(logger('dev'));
@@ -21,15 +23,21 @@ if (Config.isServerDev) {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-DBLabCelebs_1.default.cx;
 app.get("/", function (req, res) {
     BuilderJsonResponse_1.default.Success(res, {});
 });
 /* celebridad ********************************************** */
-const urlRelCelebridad = UrlApiConfig_1.default.Celebridades;
-let url = `/api/${urlRelCelebridad}`;
-console.log(url);
-app.use(url, routerCelebridad_1.default);
+{
+    let url = `/api/${UrlApiConfig_1.default.Celebridades}`;
+    console.log(url);
+    app.use(url, routerCelebridad_1.default);
+}
+/* peliculas ********************************************** */
+{
+    let url = `/api/${UrlApiConfig_1.default.Peliculas}`;
+    console.log(url);
+    app.use(url, routerPelicula_1.default);
+}
 /* server ************************************************* */
 const port = Config.backPort;
 app.listen(port, () => {
