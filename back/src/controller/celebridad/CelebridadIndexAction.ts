@@ -7,7 +7,7 @@ import UrlApiConfig from "../../UrlApiConfig";
 import ServerConfig from "../../ServerConfig";
 
 
-const urlRel: string = UrlApiConfig.Celebridad;
+const urlRel: string = UrlApiConfig.Celebridades;
 const itemsXRequest = UrlApiConfig.itemsXRequest;
 
 const CelebridadIndexAction = {

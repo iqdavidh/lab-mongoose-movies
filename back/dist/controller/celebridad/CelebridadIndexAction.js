@@ -7,7 +7,7 @@ const BuilderJsonResponse_1 = __importDefault(require("../../BuilderJsonResponse
 const CelebridadModel_1 = require("../../db/CelebridadModel");
 const UrlApiConfig_1 = __importDefault(require("../../UrlApiConfig"));
 const ServerConfig_1 = __importDefault(require("../../ServerConfig"));
-const urlRel = UrlApiConfig_1.default.Celebridad;
+const urlRel = UrlApiConfig_1.default.Celebridades;
 const itemsXRequest = UrlApiConfig_1.default.itemsXRequest;
 const CelebridadIndexAction = {
     getUrlNext: function (pagina) {

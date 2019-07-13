@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const UrlApiConfig_1 = __importDefault(require("../../UrlApiConfig"));
-const urlRel = UrlApiConfig_1.default.Celebridad;
+const urlRel = UrlApiConfig_1.default.Celebridades;
 const CelebridadIndexAction = {
     getUrl: function (texto, pagina) {
         return UrlApiConfig_1.default.urlApi + urlRel + `/${texto}/${pagina}`;

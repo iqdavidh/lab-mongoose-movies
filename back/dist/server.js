@@ -26,7 +26,7 @@ app.get("/", function (req, res) {
     BuilderJsonResponse_1.default.Success(res, {});
 });
 /* celebridad ********************************************** */
-const urlRelCelebridad = UrlApiConfig_1.default.Celebridad;
+const urlRelCelebridad = UrlApiConfig_1.default.Celebridades;
 let url = `/api/${urlRelCelebridad}`;
 console.log(url);
 app.use(url, routerCelebridad_1.default);

@@ -40,7 +40,7 @@ app.get("/", function (req, res) {
 
 /* celebridad ********************************************** */
 
-const urlRelCelebridad= UrlApiConfig.Celebridad;
+const urlRelCelebridad= UrlApiConfig.Celebridades;
 let url=`/api/${urlRelCelebridad}`;
 console.log(url);
 app.use(url, routerCelebridad);

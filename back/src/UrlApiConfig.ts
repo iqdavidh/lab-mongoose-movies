@@ -1,5 +1,5 @@
 const UrlApiConfig: any = {
-   Celebridad: 'celebridades',
+   Celebridades: 'celebridades',
    Movie: 'movie',
    itemsXRequest: 10,
 };
