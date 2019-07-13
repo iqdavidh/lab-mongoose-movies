@@ -18,11 +18,10 @@ let url="http://localhost:3002";
 const request = supertest(url);
 
 
-describe('get /api/celebridades', function () {
+describe('get /api/celebridades/page', function () {
   it('ok request', function (done) {
-
     request
-        .get('/api/celebridades')
+        .get('/api/celebridades/page/1')
         .expect(200)
         .end(function (err, res) {
 
@@ -50,8 +49,45 @@ describe('get /api/celebridades', function () {
           done();
         })
     ;
-
   });
 
+})
+;
+
+
+
+
+describe('get /api/celebridades/item/', function () {
+  it('ok request', function (done) {
+    request
+        .get('/api/celebridades/item/5d2925c9f82a26aff127b1f4')
+        .expect(200)
+        .end(function (err, res) {
+
+          saveResponse(  JSON.stringify(res), 'celebridades-item.json');
+
+          const c = JSON.parse(res.text);
+
+          saveResponse(res.text, 'celebridades-item.json');
+
+          assert(c.success, "Se esperada true como tipo de succes");
+          assert(c.msg === "", "No deberiamos tener un mensaje de en la respuesta");
+
+          assert(typeof c.data === "object", "El objeto data deberia deberia ser un objeto");
+
+          let dataRespuesta = c.data;
+
+
+          assert(dataRespuesta.item._id === "5d2925c9f82a26aff127b1f4", 'id incorrecto');
+          assert(dataRespuesta.item.name , "no tiene name");
+          assert(dataRespuesta.item.occupation , "no tiene ocupation");
+          assert(dataRespuesta.item.catchPhrase , "no tiene catchPhrase");
+
+
+          if (err) return done(err);
+          done();
+        })
+    ;
+  });
 })
 ;
