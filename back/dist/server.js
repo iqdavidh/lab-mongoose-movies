@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const UrlApiConfig_1 = __importDefault(require("./UrlApiConfig"));
 const routerCelebridad_1 = __importDefault(require("./controller/celebridad/routerCelebridad"));
 const BuilderJsonResponse_1 = __importDefault(require("./BuilderJsonResponse"));
+const DBLabCelebs_1 = __importDefault(require("./db/DBLabCelebs"));
 const Config = require('./Config').default;
 const express = require('express');
 const bodyParser = require("body-parser");
@@ -20,12 +21,15 @@ if (Config.isServerDev) {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+DBLabCelebs_1.default.cx;
 app.get("/", function (req, res) {
     BuilderJsonResponse_1.default.Success(res, {});
 });
 /* celebridad ********************************************** */
 const urlRelCelebridad = UrlApiConfig_1.default.Celebridad;
-app.use(`/api/${urlRelCelebridad}`, routerCelebridad_1.default);
+let url = `/api/${urlRelCelebridad}`;
+console.log(url);
+app.use(url, routerCelebridad_1.default);
 /* server ************************************************* */
 const port = Config.backPort;
 app.listen(port, () => {

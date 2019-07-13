@@ -1,8 +1,10 @@
 import {Response} from "express";
 
-import UrlApiConfig from "../../UrlApiConfig";
+
 import BuilderJsonresponse from "../../BuilderJsonResponse";
 import {CelebridadModel} from "../../db/CelebridadModel";
+import UrlApiConfig from "../../UrlApiConfig";
+import ServerConfig from "../../ServerConfig";
 
 
 const urlRel: string = UrlApiConfig.Celebridad;
@@ -14,7 +16,7 @@ const CelebridadIndexAction = {
           return this.getUrl((pagina + 1).toString());
        },
        getUrl: function (pagina: string): string {
-          return UrlApiConfig.urlApi + `${urlRel}/${pagina}`;
+          return ServerConfig.urlApi + `/${urlRel}/${pagina}`;
        },
        validarParams: function (pagina: string): boolean {
 
@@ -37,29 +39,36 @@ const CelebridadIndexAction = {
 
           const next = this.getUrlNext(numPagina);
 
-          const promTotal = CelebridadModel.count({});
+
+          const promTotal = CelebridadModel.collection.countDocuments({});
+
+
+          let x = 0;
+
           const promItems = CelebridadModel
               .find({})
               .limit(itemsXRequest)
               .skip(itemsXRequest * (numPagina - 1))
               .sort({name: 'asc'})
+              .exec()
           ;
 
 
-          Promise.all([promTotal, promItems]).then((values) => {
-             const total = values[0];
-             const items = values[1];
+          Promise.all([promTotal, promItems])
+              .then((values) => {
+                 const total = values[0];
+                 const items = values[1];
 
-             let data: any = {
-                total,
-                items,
-                pagina: numPagina,
-                next
-             };
+                 let data: any = {
+                    total,
+                    items,
+                    pagina: numPagina,
+                    next
+                 };
 
-             BuilderJsonresponse.Success(res, data);
+                 BuilderJsonresponse.Success(res, data);
 
-          }).catch(error => {
+              }).catch(error => {
 
              BuilderJsonresponse.Error(res, error);
           });

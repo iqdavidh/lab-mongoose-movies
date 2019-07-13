@@ -1,18 +1,19 @@
+import ServerConfig from "../ServerConfig";
+
 const mongoose = require("mongoose");
 
-const Config = require('./Config').default;
 
+const url: string = ServerConfig.urlMongoServer;
 
-const url: string = Config.urlMongoServer;
-
-const dbName :string ="lab_celebs";
+const dbName: string = "lab_celeb";
 
 /* ************************************************ */
-//mongoose.Promise = global.Promise;
-
+mongoose.Promise = global.Promise;
 mongoose.set('useCreateIndex', true);
 
-const cx = mongoose.connect(url + "/" + dbName, {useNewUrlParser: true});
+const cx =mongoose.connect(url + "/" + dbName, {useNewUrlParser: true});
+
+
 
 const CelebridadModel = require("./CelebridadModel");
 

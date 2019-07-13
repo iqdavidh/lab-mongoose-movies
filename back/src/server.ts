@@ -1,9 +1,11 @@
 'use strict';
 
 import {Application, Request, Response} from "express";
-import UrlApi from "./UrlApiConfig";
+import UrlApiConfig from "./UrlApiConfig";
 import routerCelebridad from "./controller/celebridad/routerCelebridad";
 import BuilderJsonresponse from "./BuilderJsonResponse";
+import DBLabCelebs from "./db/DBLabCelebs";
+
 
 
 const Config = require('./Config').default;
@@ -28,18 +30,22 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
 
+DBLabCelebs.cx;
 
 
 app.get("/", function (req, res) {
-   BuilderJsonresponse.Success(res,{});
+   BuilderJsonresponse.Success(res,{})
 });
 
 
 /* celebridad ********************************************** */
 
-const urlRelCelebridad= UrlApi.Celebridad;
+const urlRelCelebridad= UrlApiConfig.Celebridad;
+let url=`/api/${urlRelCelebridad}`;
+console.log(url);
+app.use(url, routerCelebridad);
 
-app.use(`/api/${urlRelCelebridad}`, routerCelebridad);
+
 
 
 /* server ************************************************* */

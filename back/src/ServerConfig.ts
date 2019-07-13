@@ -10,13 +10,13 @@ const isServerDev: boolean = env.server === "local";
 
 const urlMongoServer :string = "mongodb://localhost:27017";
 
-const ServerConfig: object = {
-   isServerDev,
-   urlMongoServer,
-   backPort,
-   frontPort,
-   urlFront,
-   urlApi
+const ServerConfig: any = {
+   isServerDev:isServerDev,
+   urlMongoServer:urlMongoServer,
+   backPort:backPort,
+   frontPort:frontPort,
+   urlFront:urlFront,
+   urlApi:urlApi
 };
 
 export default ServerConfig;

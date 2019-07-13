@@ -11,9 +11,7 @@ const mongoose_1 = __importStar(require("mongoose"));
 exports.CelebridadSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
     occupation: { type: String },
-    catchPhrase: { type: String },
-    creator: { type: String },
-    created_at: { type: Date, default: Date.now }
+    catchPhrase: { type: String }
 });
-exports.CelebridadModel = mongoose_1.default.model('celebridad', exports.CelebridadSchema);
+exports.CelebridadModel = mongoose_1.default.model('celebridades', exports.CelebridadSchema);
 //# sourceMappingURL=CelebridadModel.js.map
