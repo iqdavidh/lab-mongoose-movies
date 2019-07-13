@@ -7,10 +7,11 @@
   "scripts": {
     "rebuild": "tsc",
     "nodemon": "nodemon ./dist/server.js localhost 3002",
-    "test": "mocha --timeout 20000 test/",
 
+    "test_all": "mocha --timeout 20000 test/",
     "test_celebridades": "mocha --timeout 20000 test/test-celebridadCrud.js",
     "test_peliculas": "mocha --timeout 20000 test/test-peliculaCrud.js",
+
 
     "import_celebridades": "mongoimport --db lab_celeb --collection celebridades --file ../seed_celebridad.json --jsonArray",
     "import_peliculas": "mongoimport --db lab_celeb --collection peliculas --file ../seed_peliculas.json --jsonArray"
