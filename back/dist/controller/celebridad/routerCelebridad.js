@@ -7,6 +7,7 @@ const CelebridadIndexAction_1 = __importDefault(require("./CelebridadIndexAction
 const CelebridadFindByIdAction_1 = __importDefault(require("./CelebridadFindByIdAction"));
 const CelebridadUpdatedAction_1 = __importDefault(require("./CelebridadUpdatedAction"));
 const CelebridadInsertAction_1 = __importDefault(require("./CelebridadInsertAction"));
+const CelebridadDeleteAction_1 = __importDefault(require("./CelebridadDeleteAction"));
 const express = require('express');
 const routerCelebridad = express.Router();
 /* index */
@@ -29,6 +30,11 @@ routerCelebridad.put('/:id', (req, res, next) => {
 routerCelebridad.post('/', (req, res, next) => {
     let dataInsert = req.body;
     CelebridadInsertAction_1.default.execute(res, dataInsert);
+});
+/* delete item */
+routerCelebridad.delete('/:id', (req, res, next) => {
+    let id = req.params.id;
+    CelebridadDeleteAction_1.default.execute(res, id);
 });
 exports.default = routerCelebridad;
 //# sourceMappingURL=routerCelebridad.js.map

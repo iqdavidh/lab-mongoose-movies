@@ -3,6 +3,7 @@ import CelebridadIndexAction from "./CelebridadIndexAction";
 import CelebridadFindByIdAction from "./CelebridadFindByIdAction";
 import CelebridadUpdatedAction from "./CelebridadUpdatedAction";
 import CelebridadInsertAction from "./CelebridadInsertAction";
+import CelebridadDeleteAction from "./CelebridadDeleteAction";
 
 const express = require('express');
 const routerCelebridad = express.Router();
@@ -35,5 +36,11 @@ routerCelebridad.post('/', (req: Request, res: Response, next: NextFunction) => 
    CelebridadInsertAction.execute(res, dataInsert);
 });
 
+
+/* delete item */
+routerCelebridad.delete('/:id', (req: Request, res: Response, next: NextFunction) => {
+   let id: string = req.params.id;
+   CelebridadDeleteAction.execute(res,id);
+});
 
 export default routerCelebridad;

@@ -112,18 +112,48 @@ describe('put /api/celebridades/', function () {
 });
 
 
-
-
-describe('post /api/celebridades/', function () {
+describe('post/delete /api/celebridades/', function () {
   it('ok request post item', function (done) {
 
     const valorRandom = lib.getRandom();
     const dataInsert = {
       occupation: 'ocupacion insert-test ' + valorRandom.toString(),
-      name:"nombre celeb",
-      catchPhrase:"catchPhrase celeb"
+      name: "nombre celeb",
+      catchPhrase: "catchPhrase celeb"
     };
 
+
+    function testDelete(id) {
+      request
+          .delete('/api/celebridades/' + id)
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function (err, res) {
+
+            lib.saveResponse(JSON.stringify(res), 'celebridades-item-res-delete.json');
+
+            const c = JSON.parse(res.text);
+
+            lib.saveResponse(res.text, 'celebridades-item-delete.json');
+
+            assert(c.success, "Se esperada true como tipo de succes");
+            assert(c.msg === "", "No deberiamos tener un mensaje de en la respuesta");
+
+            assert(typeof c.data === "object", "El objeto data deberia deberia ser un objeto");
+
+            let dataRespuesta = c.data;
+
+            assert(dataRespuesta.id, 'no esta el id');
+
+
+            /* ahcemos otro test no se hacerlo en serie*/
+
+
+            if (err) return done(err);
+            done();
+          })
+      ;
+    }
 
     request
         .post('/api/celebridades')
@@ -146,6 +176,11 @@ describe('post /api/celebridades/', function () {
           let dataRespuesta = c.data;
 
           assert(dataRespuesta.item, 'no esta el item');
+
+          let id = dataRespuesta.item._id;
+          testDelete(id);
+          /* ahcemos otro test no se hacerlo en serie*/
+
 
           if (err) return done(err);
           done();
