@@ -6,7 +6,7 @@ const frontPort = 4002;
 const urlFront = env.site + `:${frontPort}`;
 const urlApi = env.site + `:${backPort}/api`;
 const isServerDev = env.server === "local";
-const urlMongoServer = "mongodb://localhost:27017";
+const urlMongoServer = env.urlMongoServer;
 const ServerConfig = {
     isServerDev: isServerDev,
     urlMongoServer: urlMongoServer,

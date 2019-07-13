@@ -8,7 +8,7 @@ const urlApi: String = env.site + `:${backPort}/api`;
 
 const isServerDev: boolean = env.server === "local";
 
-const urlMongoServer :string = "mongodb://localhost:27017";
+const urlMongoServer :string = env.urlMongoServer;
 
 const ServerConfig: any = {
    isServerDev:isServerDev,
