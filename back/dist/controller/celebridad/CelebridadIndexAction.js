@@ -27,9 +27,8 @@ const CelebridadIndexAction = {
             return;
         }
         const numPagina = parseInt(pagina);
-        const next = this.getUrlNext(numPagina);
+        let next = this.getUrlNext(numPagina);
         const promTotal = CelebridadModel_1.CelebridadModel.collection.countDocuments({});
-        let x = 0;
         const promItems = CelebridadModel_1.CelebridadModel
             .find({})
             .limit(itemsXRequest)
@@ -40,6 +39,10 @@ const CelebridadIndexAction = {
             .then((values) => {
             const total = values[0];
             const items = values[1];
+            let contador = itemsXRequest * (numPagina - 1) + items.length;
+            if (contador === total) {
+                next = '';
+            }
             let data = {
                 total,
                 items,

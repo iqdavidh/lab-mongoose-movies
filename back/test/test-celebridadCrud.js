@@ -1,4 +1,3 @@
-import ServerConfig from "../src/Config";
 
 const fs = require("fs");
 const supertest = require('supertest');
@@ -14,24 +13,24 @@ function saveResponse(texto, nombreArchivo) {
   });
 }
 
-let url=ServerConfig.urlApi;
+let url="http://localhost:3002";
 
 const request = supertest(url);
 
 
-describe('get /api/celebridad', function () {
+describe('get /api/celebridades', function () {
   it('ok request', function (done) {
 
     request
-        .get('/api/celebridad')
+        .get('/api/celebridades')
         .expect(200)
         .end(function (err, res) {
 
-          saveResponse(  JSON.stringify(res), 'celebridad.json');
+          saveResponse(  JSON.stringify(res), 'celebridades.json');
 
           const c = JSON.parse(res.text);
 
-          saveResponse(res.text, 'celebridad.json');
+          saveResponse(res.text, 'celebridades.json');
 
           assert(c.success, "Se esperada true como tipo de succes");
           assert(c.msg === "", "No deberiamos tener un mensaje de en la respuesta");
@@ -40,12 +39,12 @@ describe('get /api/celebridad', function () {
 
           let dataRespuesta = c.data;
 
-          assert(dataRespuesta.next === "http://localhost:3002/api/", "next incorrecto");
-          assert(dataRespuesta.total > 0, "items totales  incorrectos");
+          //assert(dataRespuesta.next !== "", "next vacio");
+          assert(dataRespuesta.total > 0, "no tiene items");
 
           assert(typeof dataRespuesta.items === "object", "se esperaba un tipo objecto");
 
-          assert(dataRespuesta.items.length > 0, "items totales  incorrectos");
+          assert(dataRespuesta.items.length > 0, "no hay items");
 
           if (err) return done(err);
           done();

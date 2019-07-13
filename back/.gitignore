@@ -1,2 +1,5 @@
 node_modules/
 .idea/
+test/response/
+test/response/html/
+test/response/screen/

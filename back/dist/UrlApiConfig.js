@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const UrlApiConfig = {
-    Celebridad: 'celebridad',
+    Celebridad: 'celebridades',
     Movie: 'movie',
     itemsXRequest: 10,
 };

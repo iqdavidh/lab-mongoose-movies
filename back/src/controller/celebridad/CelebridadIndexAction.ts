@@ -37,13 +37,11 @@ const CelebridadIndexAction = {
 
           const numPagina: number = parseInt(pagina);
 
-          const next = this.getUrlNext(numPagina);
+          let next = this.getUrlNext(numPagina);
 
 
           const promTotal = CelebridadModel.collection.countDocuments({});
 
-
-          let x = 0;
 
           const promItems = CelebridadModel
               .find({})
@@ -58,6 +56,12 @@ const CelebridadIndexAction = {
               .then((values) => {
                  const total = values[0];
                  const items = values[1];
+
+                 let contador=itemsXRequest * (numPagina - 1) + items.length;
+
+                 if(contador === total){
+                    next='';
+                 }
 
                  let data: any = {
                     total,
