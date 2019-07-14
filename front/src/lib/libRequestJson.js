@@ -78,7 +78,46 @@ const libRequestJson = {
           fnError(error);
         }
     )
-  }
+  },
+  requestDELETE: (url, fnError, fnSuccess) => {
+
+    const isDebug = libConfig.isDebug;
+
+    if (isDebug) {
+      console.log(url);
+    }
+
+
+    fetch(url, {
+          mode: 'cors',
+          method: 'DELETE',
+          headers: {
+            "Accept": "application/json",
+            'Content-Type': "application/json"
+          }
+        }
+    )
+        .then((response) => {
+          return response.json();
+        })
+        .then((payload) => {
+
+          if (isDebug) {
+            console.log(payload);
+          }
+
+          fnSuccess(payload);
+
+        })
+        .catch(error => {
+              if (isDebug) {
+                console.log(error);
+              }
+              fnError(error);
+            }
+        )
+  },
+
 
 
 };
