@@ -10,11 +10,10 @@ let opcionesMongoose = {
     useNewUrlParser: true
 };
 if (!ServerConfig_1.default.isServerDev) {
-    opcionesMongoose = {
-        "user": ServerConfig_1.default.mongo_user,
-        "pass": ServerConfig_1.default.mongo_pass,
-        useNewUrlParser: true
-    };
+    const user = encodeURIComponent(ServerConfig_1.default.mongo_user);
+    const password = encodeURIComponent(ServerConfig_1.default.mongo_pass);
+    const authMechanism = 'DEFAULT';
+    url = `mongodb://${user}:${password}@localhost:27017/?authMechanism=${authMechanism}`;
 }
 console.log(url);
 mongoose.Promise = global.Promise;
