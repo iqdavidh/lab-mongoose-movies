@@ -15,16 +15,17 @@
           </tr>
           </thead>
           <tbody>
-            <tr>
-              <td></td>
-            </tr>
+          <tr v-for="(c,index) in lista" :key="c._id">
+            <td :title="ID">{{index+1}}</td>
+            <td>{{c.name}}</td>
+            <td>{{c.occupation}}</td>
+            <td>{{c.catchPhrase}}</td>
+          </tr>
           </tbody>
 
         </table>
       </div>
 
-
-{{urlCelebridades}}
 
     </div>
 
@@ -35,21 +36,60 @@
 
   import UrlApi from "../UrlApi";
   import libToast from "../lib/libToast";
+  import libRequestJson from "../lib/libRequestJson";
 
-  let urlCelebridades = UrlApi.Celebridades;
+  const urlCelebridades = UrlApi.Celebridades;
+
 
   export default {
     name: 'Celebridades',
     props: {},
-    data(){
-      return{
-        urlCelebridades
+    data() {
+      return {
+        urlCelebridades,
+        pagina: 1,
+        lista: [],
+        next: '',
+        total: 0
       }
     },
-    methods:{
+    methods: {
 
-    },mounted() {
-      libToast.info("Datos Loaded");
+      loadPagina(pagina) {
+        this.pagina = pagina;
+
+        const url = urlCelebridades + '/index/' + pagina.toString();
+
+        const fnSuccess = (payload) => {
+
+          if (payload.success) {
+
+            this.lista = payload.data.items;
+            this.next = payload.data.next;
+            this.lista = payload.data.items;
+
+            libToast.success(payload.msg);
+
+          } else {
+
+            libToast.alert(payload.msg);
+          }
+
+        };
+
+        const fnError=(error)=>{
+          libToast.alert(error);
+        };
+
+        libRequestJson.requestGET(url,fnError,fnSuccess);
+
+      }
+    }, mounted() {
+
+
+      this.loadPagina(1);
+
+
     }
   }
 </script>

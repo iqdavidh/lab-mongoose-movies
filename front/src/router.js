@@ -14,12 +14,12 @@ export default new Router({
     {
       path: '/celebridades',
       name: 'celebridades',
-      component: () => import(/* webpackChunkName: "celebridades" */ './views/Celebridades.vue')
+      component: () => import(/* webpackChunkName: "Celebridades" */ './views/Celebridades.vue')
     },
     {
       path: '/movies',
       name: 'movies',
-      component: () => import(/* webpackChunkName: "movies" */ './views/Movies.vue')
+      component: () => import(/* webpackChunkName: "Movies" */ './views/Movies.vue')
     },
   ]
 })

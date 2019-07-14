@@ -1,6 +1,15 @@
+import libConfig from "./libConfig";
+
 const libRequestJson = {
 
-  requestGET: () => {
+  requestGET: (url, fnError, fnSuccess) => {
+
+    const isDebug = libConfig.isDebug;
+
+    if (isDebug) {
+      console.log(url);
+    }
+
 
     fetch(url, {
           mode: 'cors',
@@ -11,21 +20,67 @@ const libRequestJson = {
           }
         }
     )
-        .then((response) => {
-          return response.json();
-        })
-        .then((payload) => {
-
-          if (payload.success === true) {
-            //aqui ya podemos validar si hya un acceso
-
-          } else {
-            alert(payload.msg);
-          }
-        }).catch(error => {
-      alert(error);
+    .then((response) => {
+      return response.json();
     })
+    .then((payload) => {
+
+      if (isDebug) {
+        console.log(payload);
+      }
+
+      fnSuccess(payload);
+
+    })
+    .catch(error => {
+          if (isDebug) {
+            console.log(error);
+          }
+          fnError(error);
+        }
+    )
+  },
+
+  requestPOST: (url, dataObject, fnError, fnSuccess) => {
+
+    const isDebug = libConfig.isDebug;
+
+    if (isDebug) {
+      console.log(url);
+    }
+
+
+    fetch(url, {
+          mode: 'cors',
+          method: 'POST',
+          headers: {
+            "Accept": "application/json",
+            'Content-Type': "application/json"
+          }
+        }
+    )
+    .then((response) => {
+      return response.json();
+    })
+    .then((payload) => {
+
+      if (isDebug) {
+        console.log(payload);
+      }
+
+      fnSuccess(payload);
+
+    })
+    .catch(error => {
+          if (isDebug) {
+            console.log(error);
+          }
+          fnError(error);
+        }
+    )
   }
+
+
 };
 
 
