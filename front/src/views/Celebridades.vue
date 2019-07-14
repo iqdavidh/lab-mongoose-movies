@@ -8,12 +8,15 @@
 </template>
 
 <script>
-export default {
-  name: 'Celebridades',
-  props: {
 
+  import UrlApi from "../UrlApi";
+
+  let x = UrlApi;
+
+  export default {
+    name: 'Celebridades',
+    props: {}
   }
-}
 </script>
 
 

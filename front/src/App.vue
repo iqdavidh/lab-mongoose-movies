@@ -23,7 +23,10 @@
       </div>
     </nav>
 
-    <router-view/>
+    <div style="margin-top: 20px">
+      <router-view/>
+    </div>
+
 
   </div>
 </template>
