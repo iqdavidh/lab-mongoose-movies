@@ -10,6 +10,12 @@ console.log(url);
 mongoose.Promise = global.Promise;
 mongoose.set('useCreateIndex', true);
 const cx = mongoose.connect(url, { useNewUrlParser: true });
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+    // we're connected!
+    console.log('db conectada');
+});
 const CelebridadModel = require("./CelebridadModel");
 exports.default = {
     cx,
