@@ -3,7 +3,7 @@ import ServerConfig from "../ServerConfig";
 const mongoose = require("mongoose");
 
 
-let url: string = ServerConfig.urlMongoServer + '/lab_celeb';
+let url: string = ServerConfig.urlMongoServer ;
 
 let opcionesMongoose: any = {
    useNewUrlParser: true
@@ -13,9 +13,10 @@ if (!ServerConfig.isServerDev) {
    const user = encodeURIComponent(ServerConfig.mongo_user);
    const password = encodeURIComponent(ServerConfig.mongo_pass);
    const authMechanism = 'DEFAULT';
-   url = `mongodb://${user}:${password}@localhost:27017/?authMechanism=${authMechanism}`;
+   url = `mongodb://${user}:${password}@localhost:27017`;
 }
 
+url=url+'/lab_celeb';
 console.log(url);
 
 mongoose.Promise = global.Promise;

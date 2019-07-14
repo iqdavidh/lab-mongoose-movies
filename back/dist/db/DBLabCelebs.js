@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const ServerConfig_1 = __importDefault(require("../ServerConfig"));
 const mongoose = require("mongoose");
-let url = ServerConfig_1.default.urlMongoServer + '/lab_celeb';
+let url = ServerConfig_1.default.urlMongoServer;
 let opcionesMongoose = {
     useNewUrlParser: true
 };
@@ -13,8 +13,9 @@ if (!ServerConfig_1.default.isServerDev) {
     const user = encodeURIComponent(ServerConfig_1.default.mongo_user);
     const password = encodeURIComponent(ServerConfig_1.default.mongo_pass);
     const authMechanism = 'DEFAULT';
-    url = `mongodb://${user}:${password}@localhost:27017/?authMechanism=${authMechanism}`;
+    url = `mongodb://${user}:${password}@localhost:27017`;
 }
+url = url + '/lab_celeb';
 console.log(url);
 mongoose.Promise = global.Promise;
 mongoose.set('useCreateIndex', true);
