@@ -13,7 +13,6 @@ if (!ServerConfig.isServerDev) {
    opcionesMongoose = {
       "user": ServerConfig.mongo_user,
       "pass": ServerConfig.mongo_pass,
-      "useMongoClient": true,
       useNewUrlParser: true
    }
 }

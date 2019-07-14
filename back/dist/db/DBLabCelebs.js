@@ -13,7 +13,6 @@ if (!ServerConfig_1.default.isServerDev) {
     opcionesMongoose = {
         "user": ServerConfig_1.default.mongo_user,
         "pass": ServerConfig_1.default.mongo_pass,
-        "useMongoClient": true,
         useNewUrlParser: true
     };
 }
