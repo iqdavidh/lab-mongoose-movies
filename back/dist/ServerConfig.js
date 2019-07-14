@@ -10,6 +10,8 @@ const urlMongoServer = env.urlMongoServer;
 const ServerConfig = {
     isServerDev: isServerDev,
     urlMongoServer: urlMongoServer,
+    mongo_user: env.mongo_user,
+    mongo_pass: env.mongo_pass,
     backPort: backPort,
     frontPort: frontPort,
     urlFront: urlFront,

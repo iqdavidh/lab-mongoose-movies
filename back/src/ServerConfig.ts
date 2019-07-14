@@ -13,6 +13,8 @@ const urlMongoServer :string = env.urlMongoServer;
 const ServerConfig: any = {
    isServerDev:isServerDev,
    urlMongoServer:urlMongoServer,
+   mongo_user:env.mongo_user,
+   mongo_pass:env.mongo_pass,
    backPort:backPort,
    frontPort:frontPort,
    urlFront:urlFront,

@@ -5,11 +5,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const ServerConfig_1 = __importDefault(require("../ServerConfig"));
 const mongoose = require("mongoose");
-const url = ServerConfig_1.default.urlMongoServer + '/lab_celeb';
+let url = ServerConfig_1.default.urlMongoServer + '/lab_celeb';
+let opcionesMongoose = {
+    useNewUrlParser: true
+};
+if (!ServerConfig_1.default.isServerDev) {
+    opcionesMongoose = {
+        "user": ServerConfig_1.default.mongo_user,
+        "pass": ServerConfig_1.default.mongo_pass,
+        "useMongoClient": true,
+        useNewUrlParser: true
+    };
+}
 console.log(url);
 mongoose.Promise = global.Promise;
 mongoose.set('useCreateIndex', true);
-const cx = mongoose.connect(url, { useNewUrlParser: true });
+const cx = mongoose.connect(url, opcionesMongoose);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {

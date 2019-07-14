@@ -3,14 +3,27 @@ import ServerConfig from "../ServerConfig";
 const mongoose = require("mongoose");
 
 
-const url: string = ServerConfig.urlMongoServer + '/lab_celeb';
+let url: string = ServerConfig.urlMongoServer + '/lab_celeb';
+
+let opcionesMongoose: any = {
+   useNewUrlParser: true
+};
+
+if (!ServerConfig.isServerDev) {
+   opcionesMongoose = {
+      "user": ServerConfig.mongo_user,
+      "pass": ServerConfig.mongo_pass,
+      "useMongoClient": true,
+      useNewUrlParser: true
+   }
+}
 
 console.log(url);
 
 mongoose.Promise = global.Promise;
 mongoose.set('useCreateIndex', true);
 
-const cx = mongoose.connect(url, {useNewUrlParser: true});
+const cx = mongoose.connect(url, opcionesMongoose);
 
 
 const db = mongoose.connection;
