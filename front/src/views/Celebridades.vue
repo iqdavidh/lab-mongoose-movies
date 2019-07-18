@@ -1,22 +1,61 @@
 <template>
   <div>
 
-    <div class="row">
-      <!-- name , ocupation, catchparase-->
-
+    <div class="row" style="margin-bottom: 10px">
       <div class="col-md-12">
+        <span class="btn btn-primary" title="Agregar Celebridad" @click="onShowFormAdd">
+        <i class="fa fa-plus"></i>
+      </span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+
         <table class="table table-condensed table-striped">
           <thead>
-          <tr>
-            <th style="width: 40px">#</th>
-            <th>Name</th>
-            <th>Occupation</th>
-            <th>Catch Phrase</th>
-            <th style="width: 40px"></th>
-            <th style="width: 40px"></th>
-          </tr>
+            <tr>
+              <th style="width: 40px">#</th>
+              <th>Name</th>
+              <th>Occupation</th>
+              <th>Catch Phrase</th>
+              <th style="width: 40px"></th>
+              <th style="width: 40px"></th>
+            </tr>
           </thead>
           <tbody>
+          <tr v-show="formAdd.isShow" style="background-color: lightgoldenrodyellow">
+            <td>New</td>
+            <td :class="{'error':formAdd.error.name}">
+              <div class="form-group">
+                <input @model="formAdd.data.name" class="form-control" title="Nombre"/>
+              </div>
+            </td>
+
+            <td :class="{'error':formAdd.error.occupation}">
+              <div class="form-group">
+                <input @model="formAdd.data.occupation" class="form-control" title="Ocupación"/>
+              </div>
+            </td>
+
+            <td :class="{'error':formAdd.error.catchPhrase}">
+              <div class="form-group">
+                <input @model="formAdd.data.catchPhrase" class="form-control" title="Catch Phrase"/>
+              </div>
+            </td>
+
+
+            <td>
+                <span class="btn btn-sm btn-primary" title="Guardar" @click="exeSaveAdd">
+                  <i class="fa fa-upload"></i>
+                </span>
+            </td>
+            <td>
+               <span class="btn btn-sm btn-dark" title="Cancelar" @click="cancelSaveAdd">
+                  <i class="fa fa-times"></i>
+                </span>
+            </td>
+          </tr>
           <tr v-for="(c,index) in lista" :key="c._id">
             <td>{{index+1}}</td>
             <td>{{c.name}}</td>
@@ -24,11 +63,11 @@
             <td>{{c.catchPhrase}}</td>
             <td><span class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></span></td>
             <td>
-              <span class="btn btn-sm btn-danger"
-                    title="Eliominar Registro"
-                    @click="onShowFormDelete(c)">
-                <i class="fa fa-trash"></i>
-              </span>
+                <span class="btn btn-sm btn-danger"
+                      title="Eliominar Registro"
+                      @click="onShowFormDelete(c)">
+                  <i class="fa fa-trash"></i>
+                </span>
             </td>
           </tr>
           </tbody>
@@ -88,6 +127,7 @@
       </div>
     </div>
 
+
   </div>
 </template>
 
@@ -112,6 +152,12 @@
         formDelete: {
           celebridad: {},
           isEnProceso: false
+        },
+        formAdd: {
+          data: {name: '', occupation: '', catchPhrase: ''},
+          error: {},
+          isEnProceso: false,
+          isShow: false
         }
       }
     },
@@ -161,13 +207,13 @@
         f.isEnProceso = true;
         const fnSuccess = (payload) => {
           if (payload.success) {
-            let index= this.lista
+            let index = this.lista
                 .findIndex(item => {
                       return item._id === c.id;
                     }
                 );
 
-            this.lista.splice(index,1);
+            this.lista.splice(index, 1);
 
             libToast.success("Registro eliminado " + c.name);
             $("#modalDelete").modal("hide");
@@ -184,7 +230,27 @@
         const url = UrlApi.Celebridades + '/' + f.celebridad._id;
         libRequestJson.requestDELETE(url, fnError, fnSuccess);
 
+      },
+
+      onShowFormAdd() {
+
+        this.formAdd.data.name = '';
+        this.formAdd.data.occupation = '';
+        this.formAdd.data.catchPhrase = '';
+        this.formAdd.data.isEnProceso = false;
+        this.formAdd.error = {};
+        this.formAdd.isShow = true;
+      },
+      exeSaveAdd(){
+
+      },
+      cancelSaveAdd(){
+        this.formAdd.isShow = false;
+      },
+      exeSaveEdit(){
+
       }
+
 
     }, mounted() {
 
