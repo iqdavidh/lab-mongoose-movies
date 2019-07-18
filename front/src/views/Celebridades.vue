@@ -14,33 +14,33 @@
 
         <table class="table table-condensed table-striped">
           <thead>
-            <tr>
-              <th style="width: 40px">#</th>
-              <th>Name</th>
-              <th>Occupation</th>
-              <th>Catch Phrase</th>
-              <th style="width: 40px"></th>
-              <th style="width: 40px"></th>
-            </tr>
+          <tr>
+            <th style="width: 40px">#</th>
+            <th>Name</th>
+            <th>Occupation</th>
+            <th>Catch Phrase</th>
+            <th style="width: 40px"></th>
+            <th style="width: 40px"></th>
+          </tr>
           </thead>
           <tbody>
           <tr v-show="formAdd.isShow" style="background-color: lightgoldenrodyellow">
             <td>New</td>
             <td :class="{'error':formAdd.error.name}">
               <div class="form-group">
-                <input @model="formAdd.data.name" class="form-control" title="Nombre"/>
+                <input @model="formAdd.data.name.trim" class="form-control" required title="Nombre"/>
               </div>
             </td>
 
             <td :class="{'error':formAdd.error.occupation}">
               <div class="form-group">
-                <input @model="formAdd.data.occupation" class="form-control" title="Ocupación"/>
+                <input @model="formAdd.data.occupation.trim" class="form-control" required title="Ocupación"/>
               </div>
             </td>
 
             <td :class="{'error':formAdd.error.catchPhrase}">
               <div class="form-group">
-                <input @model="formAdd.data.catchPhrase" class="form-control" title="Catch Phrase"/>
+                <input @model="formAdd.data.catchPhrase.trim" class="form-control" required title="Catch Phrase"/>
               </div>
             </td>
 
@@ -241,14 +241,95 @@
         this.formAdd.error = {};
         this.formAdd.isShow = true;
       },
-      exeSaveAdd(){
+      getValidacionData(data, error) {
+
+        let isValid = true;
+        error = {};
+
+        if (!!data.name) {
+          error.name = true;
+          isValid = false;
+        }
+
+        if (!!data.occupation) {
+          error.occupation = true;
+          isValid = false;
+        }
+
+        if (!!data.catchPhrase) {
+          error.catchPhrase = true;
+          isValid = false;
+        }
+
+        return isValid;
+      },
+      exeSaveAdd() {
+
+        if (this.formAdd.isEnProceso) {
+          return;
+        }
+
+        this.formAdd.isEnProceso = true;
+
+
+        let isValidacion = this.getValidacionData(this.formAdd.data, this.formAdd.error);
+
+        if (!isValidacion) {
+          this.formAdd.isEnProceso = false;
+          libToast.alert("Datos incorrectos");
+          return;
+        }
+
+        let listaCampos = ['_id', 'name', 'occupation', 'catchPhrase'];
+
+        /*Proceder a guardar los datos */
+
+        let fnSuccess = (payload) => {
+
+          if (payload.success) {
+            const data = payload.data;
+
+            let newCelebridad = {};
+            listaCampos.forEach(campo => {
+              newCelebridad[campo] = this.formAdd.data[campo];
+            });
+            this.addCelebridadToLista(newCelebridad);
+            libToast.success("Registro agregado");
+
+          }
+
+        };
+
+        let fnError = (response) => {
+
+        };
+
+        const url = UrlApi.Celebridades;
+
+
+        let dataObject = {};
+
+        listaCampos
+            .filter(campo => {
+              return campo !== '_id';
+            })
+            .forEach(campo => {
+              dataObject[campo] = this.formAdd.data[campo];
+            })
+        ;
+
+
+        libRequestJson.requestPOST(url, dataObject, fnError, fnSuccess);
 
       },
-      cancelSaveAdd(){
+      cancelSaveAdd() {
         this.formAdd.isShow = false;
       },
-      exeSaveEdit(){
+      exeSaveEdit() {
 
+      },
+      addCelebridadToLista(item) {
+        this.lista.unshift(item);
       }
 
 
