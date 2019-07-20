@@ -1,10 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const BuilderJsonresponse = {
-    Success: (res, dataResponse) => {
+    Success: (res, dataResponse, msg = '') => {
         let data = {
             success: true,
-            msg: '',
+            msg: msg,
+            data: dataResponse
+        };
+        res.status(200).json(data);
+    },
+    NotSuccess: (res, dataResponse, msg = '') => {
+        let data = {
+            success: false,
+            msg: msg,
             data: dataResponse
         };
         res.status(200).json(data);

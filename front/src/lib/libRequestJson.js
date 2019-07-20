@@ -20,25 +20,25 @@ const libRequestJson = {
           }
         }
     )
-    .then((response) => {
-      return response.json();
-    })
-    .then((payload) => {
+        .then((response) => {
+          return response.json();
+        })
+        .then((payload) => {
 
-      if (isDebug) {
-        console.log(payload);
-      }
-
-      fnSuccess(payload);
-
-    })
-    .catch(error => {
           if (isDebug) {
-            console.log(error);
+            console.log(payload);
           }
-          fnError(error);
-        }
-    )
+
+          fnSuccess(payload);
+
+        })
+        .catch(error => {
+              if (isDebug) {
+                console.log(error);
+              }
+              fnError(error);
+            }
+        )
   },
 
   requestPOST: (url, dataObject, fnError, fnSuccess) => {
@@ -54,30 +54,31 @@ const libRequestJson = {
           mode: 'cors',
           method: 'POST',
           headers: {
-            "Accept": "application/json",
-            'Content-Type': "application/json"
-          }
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(dataObject)
         }
     )
-    .then((response) => {
-      return response.json();
-    })
-    .then((payload) => {
+        .then((response) => {
+          return response.json();
+        })
+        .then((payload) => {
 
-      if (isDebug) {
-        console.log(payload);
-      }
-
-      fnSuccess(payload);
-
-    })
-    .catch(error => {
           if (isDebug) {
-            console.log(error);
+            console.log(payload);
           }
-          fnError(error);
-        }
-    )
+
+          fnSuccess(payload);
+
+        })
+        .catch(error => {
+              if (isDebug) {
+                console.log(error);
+              }
+              fnError(error);
+            }
+        )
   },
   requestDELETE: (url, fnError, fnSuccess) => {
 
@@ -117,7 +118,6 @@ const libRequestJson = {
             }
         )
   },
-
 
 
 };

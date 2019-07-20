@@ -25,33 +25,37 @@
           </thead>
           <tbody>
           <tr v-show="formAdd.isShow" style="background-color: lightgoldenrodyellow">
+
             <td>New</td>
+
             <td :class="{'error':formAdd.error.name}">
               <div class="form-group">
-                <input @model="formAdd.data.name.trim" class="form-control" required title="Nombre"/>
+                <input v-model="formAdd.data.name" class="form-control" required title="Nombre"/>
               </div>
             </td>
 
             <td :class="{'error':formAdd.error.occupation}">
               <div class="form-group">
-                <input @model="formAdd.data.occupation.trim" class="form-control" required title="Ocupación"/>
+                <input v-model="formAdd.data.occupation" class="form-control" required title="Ocupación"/>
               </div>
             </td>
 
             <td :class="{'error':formAdd.error.catchPhrase}">
               <div class="form-group">
-                <input @model="formAdd.data.catchPhrase.trim" class="form-control" required title="Catch Phrase"/>
+                <input v-model="formAdd.data.catchPhrase" class="form-control" required title="Catch Phrase"/>
               </div>
             </td>
 
-
             <td>
-                <span class="btn btn-sm btn-primary" title="Guardar" @click="exeSaveAdd">
+                <span class="btn btn-sm btn-primary" title="Guardar"
+                      @click="exeSaveAdd">
                   <i class="fa fa-upload"></i>
                 </span>
             </td>
+
             <td>
-               <span class="btn btn-sm btn-dark" title="Cancelar" @click="cancelSaveAdd">
+               <span class="btn btn-sm btn-dark" title="Cancelar"
+                     @click="cancelSaveAdd">
                   <i class="fa fa-times"></i>
                 </span>
             </td>
@@ -133,11 +137,18 @@
 
 <script>
 
-  import UrlApi from "../UrlApi";
+
   import libToast from "../lib/libToast";
   import libRequestJson from "../lib/libRequestJson";
   import libConfig from "../lib/libConfig";
+  import UrlApi from "../UrlApi";
+  import libValidacion from "../lib/libValidacion";
 
+
+  const listaCampos = ['_id', 'name', 'occupation', 'catchPhrase'];
+  const listaCamposUpdate = listaCampos.filter(c => {
+    return c !== '_id';
+  });
 
   export default {
     name: 'Celebridades',
@@ -209,11 +220,13 @@
           if (payload.success) {
             let index = this.lista
                 .findIndex(item => {
-                      return item._id === c.id;
+                      return item._id === c._id;
                     }
                 );
 
-            this.lista.splice(index, 1);
+            if(index>0){
+              this.lista.splice(index, 1);
+            }
 
             libToast.success("Registro eliminado " + c.name);
             $("#modalDelete").modal("hide");
@@ -234,32 +247,19 @@
 
       onShowFormAdd() {
 
-        this.formAdd.data.name = '';
-        this.formAdd.data.occupation = '';
-        this.formAdd.data.catchPhrase = '';
-        this.formAdd.data.isEnProceso = false;
+        listaCamposUpdate.forEach(c => {
+          this.formAdd.data[c] = '';
+        });
+
+        this.formAdd.isEnProceso = false;
         this.formAdd.error = {};
         this.formAdd.isShow = true;
       },
       getValidacionData(data, error) {
 
-        let isValid = true;
         error = {};
 
-        if (!!data.name) {
-          error.name = true;
-          isValid = false;
-        }
-
-        if (!!data.occupation) {
-          error.occupation = true;
-          isValid = false;
-        }
-
-        if (!!data.catchPhrase) {
-          error.catchPhrase = true;
-          isValid = false;
-        }
+        let isValid = libValidacion.paramNotNull(data, listaCamposUpdate, error);
 
         return isValid;
       },
@@ -280,7 +280,6 @@
           return;
         }
 
-        let listaCampos = ['_id', 'name', 'occupation', 'catchPhrase'];
 
         /*Proceder a guardar los datos */
 
@@ -290,33 +289,29 @@
             const data = payload.data;
 
             let newCelebridad = {};
+
             listaCampos.forEach(campo => {
               newCelebridad[campo] = this.formAdd.data[campo];
             });
             this.addCelebridadToLista(newCelebridad);
             libToast.success("Registro agregado");
+            this.formAdd.isEnProceso = true;
+            this.formAdd.isShow = false;
 
+          } else {
+            libToast.alert("Error " + payload.msg);
           }
 
         };
 
         let fnError = (response) => {
-
+          libToast.alert("Error de Servidor");
         };
 
         const url = UrlApi.Celebridades;
 
 
-        let dataObject = {};
-
-        listaCampos
-            .filter(campo => {
-              return campo !== '_id';
-            })
-            .forEach(campo => {
-              dataObject[campo] = this.formAdd.data[campo];
-            })
-        ;
+        let dataObject = JSON.parse(JSON.stringify(this.formAdd.data));
 
 
         libRequestJson.requestPOST(url, dataObject, fnError, fnSuccess);

@@ -26,7 +26,7 @@ const CelebridadInsertAction = {
     },
     execute: function (res, dataInsert) {
         if (!this.validarParams(dataInsert)) {
-            BuilderJsonResponse_1.default.Error(res, "datos inválidos ");
+            BuilderJsonResponse_1.default.NotSuccess(res, "datos inválidos ");
             return;
         }
         //construir el object para insert

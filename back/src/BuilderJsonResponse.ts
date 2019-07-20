@@ -1,11 +1,21 @@
 import {Response} from "express";
 
 const BuilderJsonresponse = {
-   Success: (res: Response, dataResponse: any): void => {
+   Success: (res: Response, dataResponse: any, msg:string = ''): void => {
 
       let data: any = {
          success: true,
-         msg: '',
+         msg: msg,
+         data: dataResponse
+      };
+
+      res.status(200).json(data);
+   },
+   NotSuccess: (res: Response, dataResponse: any, msg:string = ''): void => {
+
+      let data: any = {
+         success: false,
+         msg: msg,
          data: dataResponse
       };
 
