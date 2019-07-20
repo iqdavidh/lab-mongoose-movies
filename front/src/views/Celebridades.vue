@@ -144,6 +144,7 @@
   import UrlApi from "../UrlApi";
   import libValidacion from "../lib/libValidacion";
   import celebridadIndex from "../viewmodel/celebridad/celebridadIndex";
+  import celebridadDelete from "../viewmodel/celebridad/celebridadDelete";
 
 
   const listaCampos = ['_id', 'name', 'occupation', 'catchPhrase'];
@@ -184,41 +185,7 @@
         $("#modalDelete").modal("show");
       },
       exeDelete() {
-        let f = this.formDelete;
-        let c = f.celebridad;
-
-        if (f.isEnProceso) {
-          return;
-        }
-
-        f.isEnProceso = true;
-        const fnSuccess = (payload) => {
-          if (payload.success) {
-            let index = this.lista
-                .findIndex(item => {
-                      return item._id === c._id;
-                    }
-                );
-
-            if(index>0){
-              this.lista.splice(index, 1);
-            }
-
-            libToast.success("Registro eliminado " + c.name);
-            $("#modalDelete").modal("hide");
-
-          } else {
-            libToast.alert(payload.msg);
-          }
-        };
-
-        const fnError = (payload) => {
-          libToast.alert("Error de servidor");
-        };
-
-        const url = UrlApi.Celebridades + '/' + f.celebridad._id;
-        libRequestJson.requestDELETE(url, fnError, fnSuccess);
-
+        celebridadDelete.exe(this.formDelete , this.lista);
       },
 
       onShowFormAdd() {
