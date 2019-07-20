@@ -1,5 +1,6 @@
 
-const urlBase='http://localhost:3002/api';
+//const urlBase='http://localhost:3002/api';
+const urlBase='http://http://52.37.165.46:3002/api';
 
 
 const UrlApi = {
