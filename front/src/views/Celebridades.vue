@@ -145,12 +145,8 @@
   import libValidacion from "../lib/libValidacion";
   import celebridadIndex from "../viewmodel/celebridad/celebridadIndex";
   import celebridadDelete from "../viewmodel/celebridad/celebridadDelete";
+  import celebridadInsert from "../viewmodel/celebridad/celebridadInsert";
 
-
-  const listaCampos = ['_id', 'name', 'occupation', 'catchPhrase'];
-  const listaCamposUpdate = listaCampos.filter(c => {
-    return c !== '_id';
-  });
 
   export default {
     name: 'Celebridades',
@@ -178,86 +174,31 @@
 
       loadPagina(pagina) {
         this.pagina = pagina;
-        celebridadIndex.loadPagina(pagina,this);
+        celebridadIndex.loadPagina(pagina, this);
       },
       onShowFormDelete(celebridad) {
         this.formDelete.celebridad = celebridad;
         $("#modalDelete").modal("show");
       },
       exeDelete() {
-        celebridadDelete.exe(this.formDelete , this.lista);
+        celebridadDelete.exe(this.formDelete, this.lista);
       },
 
       onShowFormAdd() {
 
-        listaCamposUpdate.forEach(c => {
-          this.formAdd.data[c] = '';
-        });
+        celebridadInsert.resetValorCampos(this.formAdd);
 
         this.formAdd.isEnProceso = false;
         this.formAdd.error = {};
         this.formAdd.isShow = true;
       },
-      getValidacionData(data, error) {
-
-        error = {};
-
-        let isValid = libValidacion.paramNotNull(data, listaCamposUpdate, error);
-
-        return isValid;
-      },
       exeSaveAdd() {
 
-        if (this.formAdd.isEnProceso) {
-          return;
-        }
-
-        this.formAdd.isEnProceso = true;
-
-
-        let isValidacion = this.getValidacionData(this.formAdd.data, this.formAdd.error);
-
-        if (!isValidacion) {
-          this.formAdd.isEnProceso = false;
-          libToast.alert("Datos incorrectos");
-          return;
-        }
-
-
-        /*Proceder a guardar los datos */
-
-        let fnSuccess = (payload) => {
-
-          if (payload.success) {
-            const data = payload.data;
-
-            let newCelebridad = {};
-
-            listaCampos.forEach(campo => {
-              newCelebridad[campo] = this.formAdd.data[campo];
-            });
-            this.addCelebridadToLista(newCelebridad);
-            libToast.success("Registro agregado");
-            this.formAdd.isEnProceso = true;
-            this.formAdd.isShow = false;
-
-          } else {
-            libToast.alert("Error " + payload.msg);
-          }
-
+        const fnAddNewToLista = (newCelebridad) => {
+          this.addCelebridadToLista(newCelebridad);
         };
 
-        let fnError = (response) => {
-          libToast.alert("Error de Servidor");
-        };
-
-        const url = UrlApi.Celebridades;
-
-
-        let dataObject = JSON.parse(JSON.stringify(this.formAdd.data));
-
-
-        libRequestJson.requestPOST(url, dataObject, fnError, fnSuccess);
+        celebridadInsert.exe(this.formAdd, fnAddNewToLista);
 
       },
       cancelSaveAdd() {
