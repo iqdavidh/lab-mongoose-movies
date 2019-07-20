@@ -143,6 +143,7 @@
   import libConfig from "../lib/libConfig";
   import UrlApi from "../UrlApi";
   import libValidacion from "../lib/libValidacion";
+  import celebridadIndex from "../viewmodel/celebridad/celebridadIndex";
 
 
   const listaCampos = ['_id', 'name', 'occupation', 'catchPhrase'];
@@ -176,32 +177,7 @@
 
       loadPagina(pagina) {
         this.pagina = pagina;
-
-        const url = UrlApi.Celebridades + '/index/' + pagina.toString();
-
-        const fnSuccess = (payload) => {
-
-          if (payload.success) {
-
-            this.lista = payload.data.items;
-            this.next = payload.data.next;
-            this.lista = payload.data.items;
-
-            libToast.success("Celebridades Página " + pagina);
-
-          } else {
-
-            libToast.alert(payload.msg);
-          }
-
-        };
-
-        const fnError = (error) => {
-          libToast.alert(error);
-        };
-
-        libRequestJson.requestGET(url, fnError, fnSuccess);
-
+        celebridadIndex.loadPagina(pagina,this);
       },
       onShowFormDelete(celebridad) {
         this.formDelete.celebridad = celebridad;
