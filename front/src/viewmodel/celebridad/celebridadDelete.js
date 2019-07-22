@@ -6,15 +6,20 @@ import UrlApi from "../../UrlApi";
 
 
 const celebridadDelete = {
-  exe(f,lista) {
+  showForm(formDelete,celebridad) {
+    formDelete.celebridad = celebridad;
+    $("#modalDelete").modal();
+  },
+  exe(formCelebridad, lista) {
 
-    let c = f.celebridad;
-
-    if (f.isEnProceso) {
+    if (formCelebridad.isEnProceso) {
       return;
     }
 
-    f.isEnProceso = true;
+    formCelebridad.isEnProceso = true;
+
+    let c = formCelebridad.celebridad;
+
     const fnSuccess = (payload) => {
       if (payload.success) {
         let index = lista
@@ -23,13 +28,14 @@ const celebridadDelete = {
                 }
             );
 
-        if (index > 0) {
+        if (index > -1) {
           lista.splice(index, 1);
         }
 
         libToast.success("Registro eliminado " + c.name);
-        $("#modalDelete").modal("hide");
 
+        $("#modalDelete").modal("hide");
+        formCelebridad.isEnProceso = false;
       } else {
         libToast.alert(payload.msg);
       }
@@ -39,7 +45,7 @@ const celebridadDelete = {
       libToast.alert("Error de servidor");
     };
 
-    const url = UrlApi.Celebridades + '/' + f.celebridad._id;
+    const url = UrlApi.Celebridades + '/' + formCelebridad.celebridad._id;
     libRequestJson.requestDELETE(url, fnError, fnSuccess);
 
   }

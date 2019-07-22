@@ -25,25 +25,25 @@
           </tr>
           </thead>
           <tbody>
-          <tr v-show="formAdd.isShow" style="background-color: lightgoldenrodyellow">
+          <tr v-show="formCelebridad.isShow" style="background-color: lightgoldenrodyellow">
 
             <td>New</td>
 
             <td>
-              <div class="form-group" :class="{'error':formAdd.error.name}">
-                <input v-model="formAdd.data.name" class="form-control" required title="Nombre"/>
+              <div class="form-group" :class="{'error':formCelebridad.error.name}">
+                <input v-model="formCelebridad.data.name" class="form-control" required title="Nombre"/>
               </div>
             </td>
 
-            <td :class="{'error':formAdd.error.occupation}">
+            <td :class="{'error':formCelebridad.error.occupation}">
               <div class="form-group">
-                <input v-model="formAdd.data.occupation" class="form-control" required title="Ocupación"/>
+                <input v-model="formCelebridad.data.occupation" class="form-control" required title="Ocupación"/>
               </div>
             </td>
 
-            <td :class="{'error':formAdd.error.catchPhrase}">
+            <td :class="{'error':formCelebridad.error.catchPhrase}">
               <div class="form-group">
-                <input v-model="formAdd.data.catchPhrase" class="form-control" required title="Catch Phrase"/>
+                <input v-model="formCelebridad.data.catchPhrase" class="form-control" required title="Catch Phrase"/>
               </div>
             </td>
 
@@ -70,8 +70,8 @@
                 {{c.name}}
               </div>
               <div v-if="c.isEdit">
-                <div class="form-group" :class="{'error':formAdd.error.name}">
-                  <input v-model="formAdd.data.name" class="form-control" required title="Nombre"/>
+                <div class="form-group" :class="{'error':formCelebridad.error.name}">
+                  <input v-model="formCelebridad.data.name" class="form-control" required title="Nombre"/>
                 </div>
               </div>
 
@@ -81,8 +81,8 @@
                 {{c.occupation}}
               </div>
               <div v-if="c.isEdit">
-                <div class="form-group" :class="{'error':formAdd.error.occupation}">
-                  <input v-model="formAdd.data.occupation" class="form-control" required title="Ocupacion"/>
+                <div class="form-group" :class="{'error':formCelebridad.error.occupation}">
+                  <input v-model="formCelebridad.data.occupation" class="form-control" required title="Ocupacion"/>
                 </div>
               </div>
             </td>
@@ -91,8 +91,8 @@
                 {{c.catchPhrase}}
               </div>
               <div v-if="c.isEdit">
-                <div class="form-group" :class="{'error':formAdd.error.catchPhrase}">
-                  <input v-model="formAdd.data.catchPhrase" class="form-control" required title="Catch Phrase"/>
+                <div class="form-group" :class="{'error':formCelebridad.error.catchPhrase}">
+                  <input v-model="formCelebridad.data.catchPhrase" class="form-control" required title="Catch Phrase"/>
                 </div>
               </div>
 
@@ -220,7 +220,7 @@
           celebridad: {},
           isEnProceso: false
         },
-        formAdd: {
+        formCelebridad: {
           data: {name: '', occupation: '', catchPhrase: ''},
           error: {},
           isEnProceso: false,
@@ -244,8 +244,7 @@
 
       },
       onShowFormDelete(celebridad) {
-        this.formDelete.celebridad = celebridad;
-        $("#modalDelete").modal("show");
+        celebridadDelete.showForm(this.formDelete, celebridad);
       },
       exeDelete() {
         celebridadDelete.exe(this.formDelete, this.lista);
@@ -257,11 +256,11 @@
           this.celebridadEditOld.isEdit = false;
         }
 
-        celebridadInsert.resetValorCampos(this.formAdd);
+        celebridadInsert.resetValorCampos(this.formCelebridad);
 
-        this.formAdd.isEnProceso = false;
-        this.formAdd.error = {};
-        this.formAdd.isShow = true;
+        this.formCelebridad.isEnProceso = false;
+        this.formCelebridad.error = {};
+        this.formCelebridad.isShow = true;
       },
       exeSaveAdd() {
 
@@ -269,21 +268,21 @@
           this.addCelebridadToLista(newCelebridad);
         };
 
-        celebridadInsert.exe(this.formAdd, fnAddNewToLista);
+        celebridadInsert.exe(this.formCelebridad, fnAddNewToLista);
 
       },
       cancelSaveAdd() {
-        this.formAdd.isShow = false;
+        this.formCelebridad.isShow = false;
       },
       onShowEdit(celebridad) {
         if (this.celebridadEditOld) {
           this.celebridadEditOld.isEdit = false;
           this.celebridadEditOld = celebridad;
         }
-        celebridadUpdate.showForm(this.formAdd, celebridad);
+        celebridadUpdate.showForm(this.formCelebridad, celebridad);
       },
       exeSaveEdit(celebridad) {
-        celebridadUpdate.exe(this.formAdd,celebridad)
+        celebridadUpdate.exe(this.formCelebridad,celebridad)
       },
       onCancelEdit(celebridad) {
         celebridad.isEdit = false;
