@@ -40,11 +40,14 @@ const celebridadInsert = {
       if (payload.success) {
         const data = payload.data;
 
+        /*creamos el nuevo objeto con los campos que nos manda en back*/
         let newCelebridad = {};
 
         listaCampos.forEach(campo => {
-          newCelebridad[campo] = formCelebridad.data[campo];
+          newCelebridad[campo] = data.item[campo];
         });
+
+
 
         fnAddCelebridad(newCelebridad);
 
