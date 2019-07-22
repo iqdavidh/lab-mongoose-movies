@@ -4,7 +4,7 @@ import libToast from "../../lib/libToast";
 
 const celebridadIndex = {
 
-  loadPagina(pagina,vm) {
+  loadPagina(pagina, vm) {
 
     const url = UrlApi.Celebridades + '/index/' + pagina.toString();
 
@@ -12,7 +12,12 @@ const celebridadIndex = {
 
       if (payload.success) {
 
-        vm.lista = payload.data.items;
+
+        let lista = payload.data.items;
+        lista.forEach(item => {
+          item.isEdit = false;
+        });
+        vm.lista = lista;
         vm.next = payload.data.next;
 
         libToast.success("Celebridades Página " + pagina);

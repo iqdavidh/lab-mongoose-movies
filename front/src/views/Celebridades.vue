@@ -19,8 +19,9 @@
             <th>Name</th>
             <th>Occupation</th>
             <th>Catch Phrase</th>
-            <th style="width: 40px"></th>
-            <th style="width: 40px"></th>
+            <th style="width: 35px"></th>
+            <th style="width: 35px"></th>
+            <th style="width: 35px"></th>
           </tr>
           </thead>
           <tbody>
@@ -28,8 +29,8 @@
 
             <td>New</td>
 
-            <td :class="{'error':formAdd.error.name}">
-              <div class="form-group">
+            <td>
+              <div class="form-group" :class="{'error':formAdd.error.name}">
                 <input v-model="formAdd.data.name" class="form-control" required title="Nombre"/>
               </div>
             </td>
@@ -46,6 +47,7 @@
               </div>
             </td>
 
+            <td></td>
             <td>
                 <span class="btn btn-sm btn-primary" title="Guardar"
                       @click="exeSaveAdd">
@@ -62,16 +64,73 @@
           </tr>
           <tr v-for="(c,index) in lista" :key="c._id">
             <td>{{index+1}}</td>
-            <td>{{c.name}}</td>
-            <td>{{c.occupation}}</td>
-            <td>{{c.catchPhrase}}</td>
-            <td><span class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></span></td>
             <td>
+              <div v-if="!c.isEdit">
+                {{c.name}}
+              </div>
+              <div v-if="c.isEdit">
+                <div class="form-group" :class="{'error':formAdd.error.name}">
+                  <input v-model="formAdd.data.name" class="form-control" required title="Nombre"/>
+                </div>
+              </div>
+
+            </td>
+            <td>
+              <div v-if="!c.isEdit">
+                {{c.occupation}}
+              </div>
+              <div v-if="c.isEdit">
+                <div class="form-group" :class="{'error':formAdd.error.occupation}">
+                  <input v-model="formAdd.data.occupation" class="form-control" required title="Ocupacion"/>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div v-if="!c.isEdit">
+                {{c.catchPhrase}}
+              </div>
+              <div v-if="c.isEdit">
+                <div class="form-group" :class="{'error':formAdd.error.catchPhrase}">
+                  <input v-model="formAdd.data.catchPhrase" class="form-control" required title="Catch Phrase"/>
+                </div>
+              </div>
+
+            </td>
+            <td>
+              <div v-if="c.isEdit">
+                <span class="btn btn-sm btn-primary"
+                      title="Guardar cambios"
+                      @click="exeSaveEdit(c)"
+                >
+                  <i class="fa fa-upload"></i>
+                </span>
+              </div>
+            </td>
+            <td>
+              <div v-if="!c.isEdit">
+                <span class="btn btn-sm btn-primary"
+                      @click="onShowEdit(c)"
+                >
+                  <i class="fa fa-edit"></i>
+                </span>
+              </div>
+              <div v-if="c.isEdit">
+                <span class="btn btn-sm btn-dark"
+                      @click="onCancelEdit(c)"
+                >
+                  <i class="fa fa-times"></i>
+                </span>
+              </div>
+
+            </td>
+            <td>
+              <div v-if="!c.isEdit">
                 <span class="btn btn-sm btn-danger"
                       title="Eliominar Registro"
                       @click="onShowFormDelete(c)">
                   <i class="fa fa-trash"></i>
                 </span>
+              </div>
             </td>
           </tr>
           </tbody>
@@ -167,14 +226,23 @@
           error: {},
           isEnProceso: false,
           isShow: false
-        }
+        },
+        celebridadEditOld: {}
       }
     },
     methods: {
 
       loadPagina(pagina) {
+
         this.pagina = pagina;
         celebridadIndex.loadPagina(pagina, this);
+
+        this.lista.forEach(celebridad=>{
+          //poner como reactive
+          Vue.set(celebridad, 'isEdit', false);
+        });
+
+
       },
       onShowFormDelete(celebridad) {
         this.formDelete.celebridad = celebridad;
@@ -185,6 +253,10 @@
       },
 
       onShowFormAdd() {
+
+        if (this.celebridadEditOld) {
+          this.celebridadEditOld.isEdit = false;
+        }
 
         celebridadInsert.resetValorCampos(this.formAdd);
 
@@ -204,19 +276,45 @@
       cancelSaveAdd() {
         this.formAdd.isShow = false;
       },
+      onShowEdit(celebridad) {
+
+        if (this.celebridadEditOld) {
+          this.celebridadEditOld.isEdit = false;
+          this.celebridadEditOld = celebridad;
+        }
+
+        this.formAdd.data._id = celebridad.id;
+        this.formAdd.data.name = celebridad.name;
+        this.formAdd.data.occupation = celebridad.occupation;
+        this.formAdd.data.catchPhrase = celebridad.catchPhrase;
+
+        celebridad.isEdit = true;
+      },
       exeSaveEdit() {
 
       },
+      onCancelEdit(celebridad) {
+        celebridad.isEdit = false;
+      },
       addCelebridadToLista(item) {
         this.lista.unshift(item);
+      },
+      updateCelebridadItem(data) {
+
+        let celebridad = this.lista
+            .find(item => {
+              return data._id === item._id;
+            });
+
+        Object.keys(data)
+            .forEach(c => {
+              if (c !== '_id') {
+                celebridad[c] = data[c];
+              }
+            });
       }
-
-
     }, mounted() {
-
-
       this.loadPagina(1);
-
 
     }
   }
@@ -225,4 +323,7 @@
 
 <style scoped>
 
+  .form-group {
+    margin-bottom: 0
+  }
 </style>
