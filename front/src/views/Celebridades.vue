@@ -31,7 +31,11 @@
 
             <td>
               <div class="form-group" :class="{'error':formCelebridad.error.name}">
-                <input v-model="formCelebridad.data.name" class="form-control" required title="Nombre"/>
+                <input v-model="formCelebridad.data.name"
+                       ref="inputnombreNew"
+                       class="form-control"
+                       required
+                       title="Nombre"/>
               </div>
             </td>
 
@@ -71,7 +75,9 @@
               </div>
               <div v-if="c.isEdit">
                 <div class="form-group" :class="{'error':formCelebridad.error.name}">
-                  <input v-model="formCelebridad.data.name" class="form-control" required title="Nombre"/>
+                  <input v-model="formCelebridad.data.name"
+                         class="form-control"
+                         required title="Nombre"/>
                 </div>
               </div>
 
