@@ -62,6 +62,7 @@
                 </span>
             </td>
           </tr>
+
           <tr v-for="(c,index) in lista" :key="c._id">
             <td>{{index+1}}</td>
             <td>
@@ -197,14 +198,12 @@
 <script>
 
 
-  import libToast from "../lib/libToast";
-  import libRequestJson from "../lib/libRequestJson";
   import libConfig from "../lib/libConfig";
-  import UrlApi from "../UrlApi";
-  import libValidacion from "../lib/libValidacion";
+
   import celebridadIndex from "../viewmodel/celebridad/celebridadIndex";
   import celebridadDelete from "../viewmodel/celebridad/celebridadDelete";
   import celebridadInsert from "../viewmodel/celebridad/celebridadInsert";
+  import celebridadUpdate from "../viewmodel/celebridad/celebridadUpdate";
 
 
   export default {
@@ -277,41 +276,20 @@
         this.formAdd.isShow = false;
       },
       onShowEdit(celebridad) {
-
         if (this.celebridadEditOld) {
           this.celebridadEditOld.isEdit = false;
           this.celebridadEditOld = celebridad;
         }
-
-        this.formAdd.data._id = celebridad.id;
-        this.formAdd.data.name = celebridad.name;
-        this.formAdd.data.occupation = celebridad.occupation;
-        this.formAdd.data.catchPhrase = celebridad.catchPhrase;
-
-        celebridad.isEdit = true;
+        celebridadUpdate.showForm(this.formAdd, celebridad);
       },
-      exeSaveEdit() {
-
+      exeSaveEdit(celebridad) {
+        celebridadUpdate.exe(this.formAdd,celebridad)
       },
       onCancelEdit(celebridad) {
         celebridad.isEdit = false;
       },
       addCelebridadToLista(item) {
         this.lista.unshift(item);
-      },
-      updateCelebridadItem(data) {
-
-        let celebridad = this.lista
-            .find(item => {
-              return data._id === item._id;
-            });
-
-        Object.keys(data)
-            .forEach(c => {
-              if (c !== '_id') {
-                celebridad[c] = data[c];
-              }
-            });
       }
     }, mounted() {
       this.loadPagina(1);

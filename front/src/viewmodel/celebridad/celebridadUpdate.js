@@ -10,11 +10,17 @@ const listaCamposUpdate = listaCampos.filter(c => {
 });
 
 
-
-
-
 const celebridadUpdate = {
-  exe(formAdd , fnAddCelebridad){
+  showForm(formAdd, celebridad){
+
+    listaCamposUpdate.forEach(c=>{
+      formAdd.data[c]=celebridad[c];
+    });
+
+    celebridad.isEdit = true;
+
+  },
+  exe(formAdd, celebridad) {
 
     if (formAdd.isEnProceso) {
       return;
@@ -38,19 +44,18 @@ const celebridadUpdate = {
     let fnSuccess = (payload) => {
 
       if (payload.success) {
-        const data = payload.data;
 
-        let newCelebridad = {};
+        //const data = payload.data; no hay datos para actualizar
 
-        listaCampos.forEach(campo => {
-          newCelebridad[campo] = formAdd.data[campo];
-        });
+        listaCamposUpdate
+            .forEach(c => {
+              celebridad[c] = formAdd.data[c];
 
-        fnAddCelebridad(newCelebridad);
+            });
 
-        libToast.success("Registro agregado");
+        libToast.success("Registro modificado");
         formAdd.isEnProceso = true;
-        formAdd.isShow = false;
+        celebridad.isEdit=false;
 
       } else {
         libToast.alert("Error " + payload.msg);
@@ -59,22 +64,18 @@ const celebridadUpdate = {
     };
 
     let fnError = (response) => {
-      libToast.alert("Error de Servidor");
+      libToast.alert("Error de Servidor" + response);
     };
 
-    const url = UrlApi.Celebridades;
+    const url = UrlApi.Celebridades + `/${celebridad._id}`;
 
 
     let dataObject = JSON.parse(JSON.stringify(formAdd.data));
 
 
-    libRequestJson.requestPOST(url, dataObject, fnError, fnSuccess);
-  },
-  resetValorCampos(formAdd){
-    listaCamposUpdate.forEach(c => {
-      formAdd.data[c] = '';
-    });
+    libRequestJson.requestPUT(url, dataObject, fnError, fnSuccess);
   }
+
 };
 
 

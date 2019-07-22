@@ -118,8 +118,45 @@ const libRequestJson = {
             }
         )
   },
+  requestPUT: (url, dataObject, fnError, fnSuccess) => {
+
+    const isDebug = libConfig.isDebug;
+
+    if (isDebug) {
+      console.log(url);
+    }
 
 
+    fetch(url, {
+          mode: 'cors',
+          method: 'PUT',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(dataObject)
+        }
+    )
+        .then((response) => {
+          return response.json();
+        })
+        .then((payload) => {
+
+          if (isDebug) {
+            console.log(payload);
+          }
+
+          fnSuccess(payload);
+
+        })
+        .catch(error => {
+              if (isDebug) {
+                console.log(error);
+              }
+              fnError(error);
+            }
+        )
+  }
 };
 
 
